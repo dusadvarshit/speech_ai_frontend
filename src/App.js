@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Container, Row, Col } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import VoiceRecorder from './components/VoiceRecorder';
+import FileList from './components/FileList';
+import ExperimentalForm from './components/ExperimentalForm';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="my-5">
+      <h1 className="text-center mb-4">Voice Recorder</h1>
+      <Row className="justify-content-center">
+        <Col md={8} lg={6}>
+          <VoiceRecorder />
+        </Col>
+      </Row>
+      
+      <Row className="justify-content-center">
+        <FileList />
+      </Row>
+
+      <Row className="justify-content-center">
+        <ExperimentalForm />
+      </Row>
+    </Container>
   );
-}
+};
 
 export default App;
