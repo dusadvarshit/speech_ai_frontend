@@ -4,16 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../services/api';
 
 const Login = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      const response = await login(email, password);
+      const response = await login(username, password);
       if (response.success) {
         setIsAuthenticated(true);
         navigate('/');
@@ -28,9 +28,10 @@ const Login = ({ setIsAuthenticated }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <h2 className="text-center mb-4">Login</h2>
+      {error && <Alert color="danger">{error}</Alert>}
       <FormGroup>
-        <Label for="email">Email</Label>
-        <Input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <Label for="username">Username</Label>
+        <Input type="username" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
       </FormGroup>
       <FormGroup>
         <Label for="password">Password</Label>

@@ -30,6 +30,7 @@ const Register = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <h2 className="text-center mb-4">Register</h2>
+      {error && <Alert color="danger">{error}</Alert>}
       <FormGroup>
         <Label for="username">Username</Label>
         <Input type="text" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />

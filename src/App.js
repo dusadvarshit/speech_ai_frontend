@@ -7,6 +7,7 @@ import FileList from './components/FileList';
 import ExperimentalForm from './components/ExperimentalForm';
 import Login from './components/Login';
 import Register from './components/Register';
+import Header from './components/Header';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,21 +27,21 @@ const App = () => {
       <Row className="justify-content-center">
         <FileList />
       </Row>
-      <Row className="justify-content-center">
-        <ExperimentalForm />
-      </Row>
     </>
   );
 
   return (
     <Router>
+      <Header />
       <Container className="my-5">
         <Routes>
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={
+          <Route path="*" element={
             <PrivateRoute>
-              <Home />
+              <Routes>
+                <Route path="/" element={<Home />} />
+              </Routes>
             </PrivateRoute>
           } />
         </Routes>

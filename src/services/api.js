@@ -20,15 +20,23 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-export const login = async (email, password) => {
+export const login = async (username, password) => {
   try {
-    const response = await api.post('/login', { email, password });
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-    }
-    return response.data;
+    const response = await api.post('/login', { username, password });
+    localStorage.setItem('token', response.data.access_token);
+    return { success: true, data: response.data };
   } catch (error) {
-    throw error.response.data;
+    if (error.response.status >= 400) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      return { success: false, message: error.response.data.message || 'Login failed', status: error.response.status };
+    } else if (error.request) {
+      // The request was made but no response was received
+      return { success: false, message: 'No response from server', status: null };
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      return { success: false, message: 'Error setting up request', status: null };
+    }
   }
 };
 
@@ -50,7 +58,7 @@ export const uploadFile = async (audioBlob, title) => {
   formData.append('file', audioBlob, `${title}.wav`);
 
   try {
-    const response = await axios.post(`${API_URL}/upload`, formData, {
+    const response = await api.post('/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -64,8 +72,8 @@ export const uploadFile = async (audioBlob, title) => {
 
 export const getFiles = async () => {
   try {
-    const response = await axios.get(`${API_URL}/list`);
-    return response.data.data;
+    const response = await api.get('/list');
+    return response.data;
   } catch (error) {
     console.error('Error fetching files:', error);
     throw error;

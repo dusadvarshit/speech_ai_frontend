@@ -8,7 +8,8 @@ const FileList = () => {
   const fetchFiles = async () => {
     try {
       const files = await getFiles();
-      setFileList(files);
+      setFileList(files.data);
+      console.log('FILES',files);
     } catch (error) {
       console.error('Error fetching files:', error);
       setFileList([]);
