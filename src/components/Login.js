@@ -14,6 +14,7 @@ const Login = ({ setIsAuthenticated }) => {
     setError('');
     try {
       const response = await login(username, password);
+      console.log('LoginJS',response);
       if (response.success) {
         setIsAuthenticated(true);
         navigate('/');
@@ -21,7 +22,9 @@ const Login = ({ setIsAuthenticated }) => {
         setError(response.message || 'Login unsuccessful. Please check your credentials.');
       }
     } catch (err) {
+      console.log('LoginJS',err.status);
       setError(err.message || 'An error occurred during login');
+      console.log(err);
     }
   };
   

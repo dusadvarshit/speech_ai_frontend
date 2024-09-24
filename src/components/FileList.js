@@ -22,11 +22,17 @@ const FileList = () => {
 
   return (
     <>
-      <h2 className="text-center mb-4">File List</h2>
+      <h2 className="text-center mb-4">All Your Recordings</h2>
       {fileList.length > 0 ? (
         <ul className="list-group">
           {fileList.map((file, index) => (
-            <li key={index} className="list-group-item">{file}</li>
+            <li key={index} className="list-group-item">
+              <p>{file.filename}</p>
+              <audio controls>
+                <source src={file.url} type="audio/wav" />
+                Your browser does not support the audio element.
+              </audio>
+            </li>
           ))}
         </ul>
       ) : (
@@ -38,5 +44,6 @@ const FileList = () => {
     </>
   );
 };
+
 
 export default FileList;

@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from 'reactstrap';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import VoiceRecorder from './components/VoiceRecorder';
-import FileList from './components/FileList';
 import ExperimentalForm from './components/ExperimentalForm';
 import Login from './components/Login';
 import Register from './components/Register';
 import Header from './components/Header';
+import Explore from './pages/Explore';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('token') ? true : false;
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
 
   const PrivateRoute = ({ children }) => {
+    console.log("isAuthenticated", isAuthenticated, children);
     return isAuthenticated ? children : <Navigate to="/login" />;
   };
 
@@ -22,11 +34,14 @@ const App = () => {
       <Row className="justify-content-center">
         <Col md={8} lg={6}>
           <VoiceRecorder />
+          <br /> <br /> 
         </Col>
+
+        <Link to="/explore">
+            <h3 className="text-center mb-4">Explore all recordings</h3>
+          </Link>
       </Row>
-      <Row className="justify-content-center">
-        <FileList />
-      </Row>
+      
     </>
   );
 
@@ -41,6 +56,7 @@ const App = () => {
             <PrivateRoute>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/explore" element={<Explore />} />
               </Routes>
             </PrivateRoute>
           } />

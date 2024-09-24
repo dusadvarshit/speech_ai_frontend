@@ -13,7 +13,9 @@ function Header() {
 
   return (
       <header style={styles.header}>
+          <Link to="/" style={styles.titleLink}>
             <h1 style={styles.title}>Speech AI</h1>
+          </Link>
             <button className="btn btn-outline-light me-2" onClick={handleLogout}>
                 Logout
             </button>
@@ -35,6 +37,10 @@ const styles = {
     color: 'white',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
     height: '60px',            // Reduced height for a more compact appearance
+},
+  titleLink: {
+  textDecoration: 'none',
+  color: 'inherit',
 },
   title: {
       fontSize: '28px',
