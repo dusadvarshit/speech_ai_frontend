@@ -32,6 +32,11 @@ const FileList = () => {
                 <source src={file.url} type="audio/wav" />
                 Your browser does not support the audio element.
               </audio>
+              <h3>4P Feedback</h3>
+              <p>Pause:{file.pause_feedback}</p>
+              <p>Pitch:{file.pitch_feedback}</p>
+              <p>Energy:{file.energy_feedback}</p>
+              <p>Pace:{file.pace_feedback}</p>
             </li>
           ))}
         </ul>
