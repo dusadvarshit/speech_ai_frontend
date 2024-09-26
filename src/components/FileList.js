@@ -33,10 +33,10 @@ const FileList = () => {
                 Your browser does not support the audio element.
               </audio>
               <h3>4P Feedback</h3>
-              <p>Pause:{file.pause_feedback}</p>
-              <p>Pitch:{file.pitch_feedback}</p>
-              <p>Energy:{file.energy_feedback}</p>
-              <p>Pace:{file.pace_feedback}</p>
+              <p> <b>Pause:</b> {file.pause_feedback}</p>
+              <p> <b>Pitch:</b> {file.pitch_feedback}</p>
+              <p> <b>Energy:</b> {file.energy_feedback}</p>
+              <p> <b>Pace:</b> {file.pace_feedback}</p>
             </li>
           ))}
         </ul>
