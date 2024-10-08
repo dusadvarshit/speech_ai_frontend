@@ -4,12 +4,16 @@ import { getFiles } from '../services/api';
 
 const FileList = () => {
   const [fileList, setFileList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchFiles = async () => {
+  const fetchFiles = async (page) => {
     try {
-      const files = await getFiles();
-      setFileList(files.data);
-      console.log('FILES',files);
+      const response = await getFiles(page);
+      setFileList(response.data);
+      console.log(response);
+      // setCurrentPage(response.current_page);
+      setTotalPages(response.pages);
     } catch (error) {
       console.error('Error fetching files:', error);
       setFileList([]);
@@ -17,11 +21,36 @@ const FileList = () => {
   };
 
   useEffect(() => {
-    fetchFiles();
+    fetchFiles(currentPage);
   }, []);
+
+  // Handle next/prev page clicks
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      fetchFiles(currentPage+1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      fetchFiles(currentPage-1);
+    }
+  };
 
   return (
     <>
+      <div>
+        <button onClick={goToPreviousPage} disabled={currentPage === 1} class="btn btn-primary">
+          Previous
+        </button>
+        <span> Page {currentPage} of {totalPages} </span>
+        <button onClick={goToNextPage} disabled={currentPage === totalPages} class="btn btn-primary">
+          Next
+        </button>
+      </div>
+
       <h2 className="text-center mb-4">All Your Recordings</h2>
       {fileList.length > 0 ? (
         <ul className="list-group">

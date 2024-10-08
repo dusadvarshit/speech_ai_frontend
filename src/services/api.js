@@ -86,10 +86,15 @@ export const uploadFile = async (audioBlob, title) => {
   }
 };
 
-export const getFiles = async () => {
+export const getFiles = async (page) => {
   
   try {
-    const response = await api.get('/list')
+    const response = await api.get('/list', {
+    params: {
+      page: page,
+      per_page: 3
+    }})
+
     return response.data;  
 
   } catch (error) {
