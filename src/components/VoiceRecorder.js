@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Button, Row, Col, Input, Card, CardBody, CardTitle, FormGroup } from 'reactstrap';
+import { Button, Row, Col, Input, Card, CardBody, CardTitle, FormGroup, Spinner } from 'reactstrap';
 import { useReactMediaRecorder } from "react-media-recorder";
 import { uploadFile } from '../services/api';
+
 
 const VoiceRecorder = () => {
   const [audioBlob, setAudioBlob] = useState(null);
   const [title, setTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const {
     startRecording,
@@ -33,11 +35,14 @@ const VoiceRecorder = () => {
     
     if (audioBlob) {
       try {
+        setIsUploading(true);
         const response = await uploadFile(audioBlob, title);
         alert(response);
       } catch (error) {
         console.error('Error uploading file:', error);
         alert('Error uploading file');
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -101,11 +106,18 @@ const VoiceRecorder = () => {
         {/* Upload button */}
         <Row>
           <Col className="text-center">
-            <Button onClick={handleUpload} color="success">
-              Upload File
+            <Button onClick={handleUpload} color="success" disabled={isUploading}>
+              {isUploading ? (
+                <>
+                  <Spinner size="sm" color="light" /> Uploading...
+                </>
+              ) : (
+                'Upload File'
+              )}
             </Button>
           </Col>
         </Row>
+
       </CardBody>
     </Card>
   );
